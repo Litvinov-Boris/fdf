@@ -6,7 +6,13 @@
 /*   By: svivienn <svivienn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 18:37:35 by svivienn          #+#    #+#             */
-/*   Updated: 2019/05/07 18:37:37 by svivienn         ###   ########.fr       */
+/*   Updated: 2019/05/07 19:53:06 by svivienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FDF_H
+# define FDF_H
+
+# include "../libft/libft.h"
+
+#endif
