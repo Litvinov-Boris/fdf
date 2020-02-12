@@ -6,11 +6,7 @@
 #    By: svivienn <svivienn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/07 18:36:27 by svivienn          #+#    #+#              #
-#    Updated: 2019/05/09 18:06:13 by svivienn         ###   ########.fr        #
+#    Updated: 2020/02/13 00:17:35 by svivienn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdf
-FLAGS = -Wall -Wextra -Werror
-
-all : $(NAME)
