@@ -1,0 +1,22 @@
+{
+// Документацию по формату tasks.json см.
+    // по адресу https://go.microsoft.com/fwlink/?LinkId=733558
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "build",
+            "command": "/usr/bin/gcc",
+            "args": [
+                "-g",
+                "./src/main.c",
+                "./src/init.c",
+                "./src/parser.c",
+                "./src/tools.c",
+                "./libft/libft.a",
+                "-I./inc",
+                "-I./libft"
+            ]
+        }
+    ]
+}
