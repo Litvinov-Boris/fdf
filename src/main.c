@@ -6,7 +6,7 @@
 /*   By: svivienn <svivienn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 22:04:25 by svivienn          #+#    #+#             */
-/*   Updated: 2020/02/15 03:28:40 by svivienn         ###   ########.fr       */
+/*   Updated: 2020/02/17 00:16:53 by svivienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	main(/*int argc, char **argv*/ void)\
 	t_map	*map;
 	int k;
 
-	fd = open("./42.fdf", O_RDONLY);
+	if ((fd = open("./pyramide.fdf", O_RDONLY)) == -1)
+		error();
 	map = (t_map*)malloc(sizeof(t_map));
 	ft_bzero(map, sizeof(t_map));
 	parser(fd, map);
@@ -27,7 +28,7 @@ int	main(/*int argc, char **argv*/ void)\
 		for (int j = 0; j < map->length; j++)
 		{
 			k = (int)map->map[i][j].z;
-			printf("%i\t", k);
+			printf("%i ", k);
 		}
 		printf("\n");
 	}

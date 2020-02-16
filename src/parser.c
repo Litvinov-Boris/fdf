@@ -6,11 +6,38 @@
 /*   By: svivienn <svivienn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 22:04:31 by svivienn          #+#    #+#             */
-/*   Updated: 2020/02/15 03:29:10 by svivienn         ###   ########.fr       */
+/*   Updated: 2020/02/17 00:20:01 by svivienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static void		valid_point(char *str)
+{
+	int i;
+
+	if ((i = ft_countwords(str, ',')) == 2)
+	{
+		while (*str != ',')
+			if (!ft_isdigit(*str++))
+				error();
+		if ((*(str + 1) != '0') || (*(str + 2) != 'x'))
+			error();
+		str = str + 2;
+		i = -1;
+		while (++i <= 6 && *(++str) != '\0')
+			if ((*str < 'A' || *str > 'F') && !ft_isdigit(*str))
+				error();
+		if (*str != '\0')
+			error();
+	}
+	else
+	{
+		while (*str != '\0')
+			if (!ft_isdigit(*str++))
+				error();
+	}
+}
 
 static t_point	*get_points(int length, char *str, int y)
 {
@@ -25,6 +52,7 @@ static t_point	*get_points(int length, char *str, int y)
 	i = -1;
 	while (++i < length)
 	{
+		valid_point(zs[i]);
 		init_point(zs[i], 0, i+1, y, &points[i]);
 		free(zs[i]);
 	}
