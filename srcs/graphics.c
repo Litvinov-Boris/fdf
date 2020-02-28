@@ -53,23 +53,48 @@ void	isometric(int *x, int *y, int z)
 
 }
 
-int    draw_line(t_data *data, t_point p0, t_point p1)
+void	color_pick(int *color, int color_final, int range, int mode)
+{
+	static double	r_step;
+	static double	g_step;
+	static double	b_step;
+	static int		pos;
+
+	if (mode)
+	{
+		r_step = (color_final & 0xff0000) - ((*color) & 0xff0000 + 1) / range;
+		g_step = (color_final & 0x00ff00) - ((*color) & 0x00ff00 + 1) / range;
+		b_step = (color_final & 0x0000ff) - ((*color) & 0x0000ff + 1) / range;
+	}
+	else
+	{
+		if (pos < range)
+			*color = ((int)(r_step * pos) & 0xff) << 16 +
+				((int)(g_step * pos) & 0xff) << 8 +
+				((int)(b_step * pos) & 0xff);
+		else
+			*color = color_final;
+	 	pos++;
+	}
+}
+
+
+int		draw_line(t_data *data, t_point p0, t_point p1)
 {
 	int		d_c[2];
 	int		err[2];
 	int		s_c[2];
-	long	col_step;
 
 	d_c[X] = ft_abs(p1.x - p0.x);
 	d_c[Y] = -ft_abs(p1.y - p0.y);
 	err[0] = d_c[X] + d_c[Y];
 	s_c[X] = p0.x < p1.x ? 1 : -1;
 	s_c[Y] = p0.y < p1.y ? 1 : -1;
-	col_step = (p1.color - p0.color) / (d_c[X] > d_c[Y] ? d_c[X] : d_c[Y]);
+	color_pick(&p0.color, p1.color, d_c[X] > d_c[Y] ? d_c[X] : d_c[Y], 1);
 	while(1)
 	{
+		color_pick(&p0.color, p1.color, d_c[X] > d_c[Y] ? d_c[X] : d_c[Y], 0);
 		mlx_pixel_put(data->mlx_ptr, data->mlx_win, p0.x, p0.y, p0.color);
-		p0.color += col_step;
 		if (p0.x == p1.x && p0.y == p1.y)
 			break;
 		err[1] = 2 * err[0];
