@@ -13,11 +13,13 @@
 #include "fdf.h"
 
 #if defined(__linux__)
+# define K_ESC 65307
 # define K_UP 65362
 # define K_DOWN 65364
 # define K_LEFT 65361
 # define K_RIGHT 65363
 #elif defined(__APPLE__)
+# define K_ESC 53
 # define K_UP 126
 # define K_DOWN 125
 # define K_LEFT 123
@@ -67,8 +69,10 @@ int		key_proc(int key, t_map *map)
 	printf("Keycode %d\n", key);
 	if (key == K_UP || key == K_DOWN)
 		key == K_UP ? shift(0, -30, map) : shift(0, 30, map);
-	else if (key == K_LEFT || key == K_RIGHT)
+	if (key == K_LEFT || key == K_RIGHT)
 		key == K_LEFT ? shift(-30, 0, map) : shift(30, 0, map);
+	if (key == K_ESC)
+		exit(0);
 	return (0);
 }
 
