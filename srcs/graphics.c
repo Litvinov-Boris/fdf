@@ -60,7 +60,7 @@ void	color_pick(int *color, int color_final, int range, int mode)
 	static double	b_step;
 	static int		pos;
 
-	if (mode)
+	if (mode && range != 0)
 	{
 		r_step = (color_final & 0xff0000) - ((*color) & 0xff0000 + 1) / range;
 		g_step = (color_final & 0x00ff00) - ((*color) & 0x00ff00 + 1) / range;
