@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svivienn <svivienn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: boris <boris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 22:04:31 by svivienn          #+#    #+#             */
-/*   Updated: 2020/02/17 00:20:01 by svivienn         ###   ########.fr       */
+/*   Updated: 2020/03/04 04:38:29 by boris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_point	*get_points(int length, char *str, int y)
 	while (++i < length)
 	{
 		valid_point(zs[i]);
-		init_point(zs[i], 0xffffff, i+1, y, &points[i]);
+		init_point(zs[i], i+1, y, &points[i]);
 		free(zs[i]);
 	}
 	free(zs);

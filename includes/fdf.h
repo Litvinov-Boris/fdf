@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svivienn <svivienn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: boris <boris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 22:54:36 by svivienn          #+#    #+#             */
-/*   Updated: 2020/02/15 03:21:40 by svivienn         ###   ########.fr       */
+/*   Updated: 2020/03/04 04:41:27 by boris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <math.h>
-# include <mlx.h>
+//# include <mlx.h>
 # include "libft.h"
 
 typedef struct	s_map	t_map;
@@ -53,8 +53,9 @@ typedef struct      s_data
 
 void	put_tail(t_list **head, t_list **tail, void *content);
 void	error();
+int		atoi_hex(char *str);
 
-void	init_point(char *str, int color,int x, int y, t_point *point);
+void	init_point(char *str, int x, int y, t_point *point);
 
 void	parser(int fd, t_map *map);
 
