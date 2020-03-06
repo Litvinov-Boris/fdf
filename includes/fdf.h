@@ -6,7 +6,7 @@
 /*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 22:54:36 by svivienn          #+#    #+#             */
-/*   Updated: 2020/03/06 16:11:53 by hshawand         ###   ########.fr       */
+/*   Updated: 2020/03/06 16:17:03 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@ struct					s_map
 
 typedef struct			s_data
 {
-	 int				color;
-     void				*mlx_ptr;
-     void				*mlx_win;
+	int					color;
+	void				*mlx_ptr;
+	void				*mlx_win;
 }						t_data;
-
 
 void					put_tail(t_list **head, t_list **tail, void *content);
 void					error();
