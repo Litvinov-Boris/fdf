@@ -43,14 +43,27 @@ int		ft_abs(int num)
 	return (num < 0 ? -num : num);
 }
 
-void	isometric(int *x, int *y, int z)
+int		isometric(int *x, int *y, int z)
 {
 	double	angle;
 
 	angle = 0.8;//0.523599;
 	*x = (double)(*x - *y) * cos(angle);
 	*y = (double)(*x + *y) * sin(angle) - z;
+	return (0);
+}
 
+int		color_apply(int color_base, int r_diff, int g_diff, int b_diff)
+{
+	int		r_new;
+	int		g_new;
+	int		b_new;
+
+	r_new = ((color_base & 0xff0000) >> 16) + r_diff;
+	g_new = ((color_base & 0x00ff00) >> 8) + g_diff;
+	b_new = (color_base & 0xff) + b_diff;
+
+	return (((r_new & 0xff) << 16) + ((g_new & 0xff) << 8) + (b_new & 0xff));
 }
 
 void	color_pick(int *color, int color_final, int range, int mode)
@@ -59,21 +72,27 @@ void	color_pick(int *color, int color_final, int range, int mode)
 	static double	g_step;
 	static double	b_step;
 	static int		pos;
+	static int		color_start;
 
-	if (mode && range != 0)
+	if (mode && range)
 	{
-		r_step = (color_final & 0xff0000) - ((*color) & 0xff0000 + 1) / range;
-		g_step = (color_final & 0x00ff00) - ((*color) & 0x00ff00 + 1) / range;
-		b_step = (color_final & 0x0000ff) - ((*color) & 0x0000ff + 1) / range;
+//		printf("color = %06x, final = %06x, range = %d\n", *color, color_final, range);
+		r_step = (double)((((color_final & 0xff0000) - ((*color) & 0xff0000)) >> 16) + 1) / range;
+//		printf("r_step = %f\n", r_step);
+		g_step = (double)((((color_final & 0x00ff00) - ((*color) & 0x00ff00)) >> 8) + 1) / range;
+//		printf("g_step = %f\n", g_step);
+		b_step = (double)((color_final & 0x0000ff) - ((*color) & 0x0000ff) + 1) / range;
+//		printf("b_step = %f\n", b_step);
+		color_start = *color;
+		pos = 0;
 	}
 	else
 	{
 		if (pos < range)
-			*color = ((int)(r_step * pos) & 0xff) << 16 +
-				((int)(g_step * pos) & 0xff) << 8 +
-				((int)(b_step * pos) & 0xff);
+			*color = color_apply(color_start, (int)(r_step * pos), (int)(g_step * pos), (int)(b_step * pos));
 		else
 			*color = color_final;
+//		printf("color = %06x\n", *color);
 	 	pos++;
 	}
 }
@@ -90,10 +109,10 @@ int		draw_line(t_data *data, t_point p0, t_point p1)
 	err[0] = d_c[X] + d_c[Y];
 	s_c[X] = p0.x < p1.x ? 1 : -1;
 	s_c[Y] = p0.y < p1.y ? 1 : -1;
-	color_pick(&p0.color, p1.color, d_c[X] > d_c[Y] ? d_c[X] : d_c[Y], 1);
+	color_pick(&p0.color, p1.color, d_c[X] > -d_c[Y] ? d_c[X] : -d_c[Y], 1);
 	while(1)
 	{
-		color_pick(&p0.color, p1.color, d_c[X] > d_c[Y] ? d_c[X] : d_c[Y], 0);
+		color_pick(&p0.color, p1.color, d_c[X] > -d_c[Y] ? d_c[X] : -d_c[Y], 0);
 		mlx_pixel_put(data->mlx_ptr, data->mlx_win, p0.x, p0.y, p0.color);
 		if (p0.x == p1.x && p0.y == p1.y)
 			break;
@@ -117,8 +136,8 @@ void	draw_field(t_map *map, t_data *data)
 		j = 0;
 		while (j < map->length)
 		{
-			(j + 1 != map->length) && draw_line(data, map->map[i][j], map->map[i][j + 1]);
 			(i + 1 != map->width) && draw_line(data, map->map[i][j], map->map[i + 1][j]);
+			(j + 1 != map->length) && draw_line(data, map->map[i][j], map->map[i][j + 1]);
 			j++;
 		}
 		i++;
@@ -140,8 +159,9 @@ void	map_process(t_map *map, int	zoom)
 			(map->map[i][j]).x *= zoom;
 			(map->map[i][j]).y *= zoom;
 			(map->map[i][j]).z *= zoom;
-			isometric(&((map->map[i][j]).x), &((map->map[i][j]).y),
-				(map->map[i][j]).z);
+			map->projection_type &&
+				isometric(&((map->map[i][j]).x),
+					&((map->map[i][j]).y), (map->map[i][j]).z);
 			j++;
 		}
 		i++;

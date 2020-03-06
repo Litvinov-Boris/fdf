@@ -93,22 +93,22 @@ int	main(/*int argc, char **argv*/ void)\
         return (EXIT_FAILURE);
     if ((data->mlx_win = mlx_new_window(data->mlx_ptr, 1000, 1000, "FDF")) == NULL)
         return (EXIT_FAILURE);
-
+	map->projection_type = 1;
 	map_process(map, 28);
 	update(data, map);
-/*
 
+/*
 	for(int i = 0; i < map->width; i++)
 	{
 		for (int j = 0; j < map->length; j++)
 		{
-			k = (int)map->map[i][j].z;
+			k = (int)map->map[i][j].color;
 			printf("%i ", k);
 		}
 		printf("\n");
 	}
-
 */
+
 
 	close(fd);
 	mlx_key_hook(data->mlx_win, key_proc, map);

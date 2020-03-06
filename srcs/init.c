@@ -21,7 +21,7 @@ void	init_point(char *str, int x, int y, t_point *point)
 	if (work[1] != NULL)
 		point->color = atoi_hex(work[1]);
 	else
-		point->color = 0;
+		point->color = 0xffffff;
 	point->x = x;
 	point->y = y;
 	point->z = atoi(work[0]);

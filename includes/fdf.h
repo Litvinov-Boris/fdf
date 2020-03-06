@@ -22,7 +22,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <math.h>
-//# include <mlx.h>
+# include <mlx.h>
 # include "libft.h"
 
 typedef struct	s_map	t_map;
@@ -41,6 +41,7 @@ struct			s_map
 	int			length;
 	int			width;
 	t_point		**map;
+	char		projection_type;
 };
 
 typedef struct      s_data
