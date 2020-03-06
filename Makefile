@@ -3,20 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: svivienn <svivienn@student.42.fr>          +#+  +:+       +#+         #
+#    By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/07 18:36:27 by svivienn          #+#    #+#              #
-#    Updated: 2020/02/13 00:17:35 by svivienn         ###   ########.fr        #
+#    Updated: 2020/03/06 15:14:20 by hshawand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OBJS =	srcs/graphics.o \
+		srcs/color.o \
 		srcs/init.o \
 		srcs/main.o \
 		srcs/parser.o \
 		srcs/tools.o
 
-W_FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall #-Wextra -Werror
+FLAGS += -g
 
 LIB_NAME = srcs/libft/libft.a
 
@@ -29,8 +31,8 @@ ifeq ($(UNAME_S),Linux)
 		/usr/X11/lib/libmlx.a -o $@ -lXext -lX11 -lm
 endif
 ifeq ($(UNAME_S),Darwin)
-	C_CMD = gcc $(FLAGS) -lmlx -framework OpenGL -framework AppKit \
-		$(OBJS) $(LIB_NAME) -o $@
+	C_CMD = gcc $(FLAGS) -framework OpenGL -framework AppKit \
+		$(OBJS) $(LIB_NAME) -o $@  -lmlx
 endif
 
 all: $(NAME)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: boris <boris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 22:54:36 by svivienn          #+#    #+#             */
-/*   Updated: 2020/03/04 04:41:27 by boris            ###   ########.fr       */
+/*   Updated: 2020/03/06 16:11:53 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 # include <mlx.h>
 # include "libft.h"
 
-typedef struct	s_map	t_map;
-typedef struct	s_point	t_point;
+typedef struct s_map	t_map;
+typedef struct s_point	t_point;
 
-struct			s_point
+struct					s_point
 {
 	int		x;
 	int		y;
@@ -36,31 +36,34 @@ struct			s_point
 	int		color;
 };
 
-struct			s_map
+struct					s_map
 {
-	int			length;
-	int			width;
-	t_point		**map;
-	char		projection_type;
+	int					length;
+	int					width;
+	t_point				**map;
+	char				projection_type;
 };
 
-typedef struct      s_data
+typedef struct			s_data
 {
-	 int			color;
-     void           *mlx_ptr;
-     void           *mlx_win;
-}                   t_data;
+	 int				color;
+     void				*mlx_ptr;
+     void				*mlx_win;
+}						t_data;
 
 
-void	put_tail(t_list **head, t_list **tail, void *content);
-void	error();
-int		atoi_hex(char *str);
+void					put_tail(t_list **head, t_list **tail, void *content);
+void					error();
+int						atoi_hex(char *str);
 
-void	init_point(char *str, int x, int y, t_point *point);
+void					init_point(char *str, int x, int y, t_point *point);
 
-void	parser(int fd, t_map *map);
+void					parser(int fd, t_map *map);
 
-void	draw_field(t_map *map, t_data *data);
+void					draw_field(t_map *map, t_data *data);
 
-void	map_process(t_map *map, int	zoom);
+void					map_process(t_map *map, int	zoom);
+
+void					col_pick(int *color, int color_final, int range,
+							int mode);
 #endif

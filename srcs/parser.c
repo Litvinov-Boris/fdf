@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: boris <boris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 22:04:31 by svivienn          #+#    #+#             */
-/*   Updated: 2020/03/04 04:38:29 by boris            ###   ########.fr       */
+/*   Updated: 2020/03/06 15:18:26 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_point	*get_points(int length, char *str, int y)
 	while (++i < length)
 	{
 		valid_point(zs[i]);
-		init_point(zs[i], i+1, y, &points[i]);
+		init_point(zs[i], i + 1, y, &points[i]);
 		free(zs[i]);
 	}
 	free(zs);
@@ -75,7 +75,7 @@ static void		pull_map(t_map *map, t_list *head)
 	}
 }
 
-void	parser(int fd, t_map *map)
+void			parser(int fd, t_map *map)
 {
 	t_list	*head;
 	t_list	*tail;
@@ -96,7 +96,7 @@ void	parser(int fd, t_map *map)
 		put_tail(&head, &tail, get_points(map->length, str, map->width));
 		free(str);
 	}
-	if(!(map->map = (t_point**)malloc(sizeof(t_point*) * map->width)))
+	if (!(map->map = (t_point**)malloc(sizeof(t_point*) * map->width)))
 		error();
 	pull_map(map, head);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: boris <boris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 22:04:25 by svivienn          #+#    #+#             */
-/*   Updated: 2020/03/04 05:00:37 by boris            ###   ########.fr       */
+/*   Updated: 2020/03/06 16:09:28 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,16 @@ int		update(t_data *data, t_map *map)
 {
 	static t_data	*saved_data;
 	static t_map	*saved_map;
+
 	if (data && map)
 	{
 		saved_data = data;
 		saved_map = map;
-		draw_field(saved_map, saved_data);
 	}
 	else
-	{
 		mlx_clear_window(saved_data->mlx_ptr, saved_data->mlx_win);
-		draw_field(saved_map, saved_data);
-	}
-
+	draw_field(saved_map, saved_data);
+	return (0);
 }
 
 void	shift(int shift_x, int shift_y, t_map *map)
@@ -66,7 +64,6 @@ void	shift(int shift_x, int shift_y, t_map *map)
 
 int		key_proc(int key, t_map *map)
 {
-	printf("Keycode %d\n", key);
 	if (key == K_UP || key == K_DOWN)
 		key == K_UP ? shift(0, -30, map) : shift(0, 30, map);
 	if (key == K_LEFT || key == K_RIGHT)
@@ -76,40 +73,40 @@ int		key_proc(int key, t_map *map)
 	return (0);
 }
 
-int	main(/*int argc, char **argv*/ void)\
+int		pick_projection(void)
+{
+	int	type;
+
+	write(1, "Pick projection type:\n 0 - Parallel\n 1 - Isometric\n", 51);
+	read(0, &type, 1);
+	type -= 48;
+	if (type != 0 && type != 1)
+		error();
+	return (type);
+}
+
+int		main(int argc, char **argv)\
 {
 	int		fd;
 	t_map	*map;
-	int k;
-	t_data  *data;
+	t_data	*data;
 
-	if ((fd = open("./pyramide.fdf", O_RDONLY)) == -1)
+	if (argc != 2)
+		error();
+	if ((fd = open(argv[1], O_RDONLY)) == -1)
 		error();
 	map = (t_map *)malloc(sizeof(t_map));
-	data = (t_data *)malloc(sizeof(data));
+	data = (t_data *)malloc(sizeof(t_data));
 	ft_bzero(map, sizeof(t_map));
 	parser(fd, map);
-    if ((data->mlx_ptr = mlx_init()) == NULL)
-        return (EXIT_FAILURE);
-    if ((data->mlx_win = mlx_new_window(data->mlx_ptr, 1000, 1000, "FDF")) == NULL)
-        return (EXIT_FAILURE);
-	map->projection_type = 1;
+	map->projection_type = pick_projection();
+	if ((data->mlx_ptr = mlx_init()) == NULL)
+		return (EXIT_FAILURE);
+	if ((data->mlx_win =
+		mlx_new_window(data->mlx_ptr, 1000, 1000, "FDF")) == NULL)
+		return (EXIT_FAILURE);
 	map_process(map, 28);
 	update(data, map);
-
-/*
-	for(int i = 0; i < map->width; i++)
-	{
-		for (int j = 0; j < map->length; j++)
-		{
-			k = (int)map->map[i][j].color;
-			printf("%i ", k);
-		}
-		printf("\n");
-	}
-*/
-
-
 	close(fd);
 	mlx_key_hook(data->mlx_win, key_proc, map);
 	mlx_loop(data->mlx_ptr);
